@@ -18,7 +18,6 @@ const HomePage: React.FC = () => {
         
         <div className="hidden md:flex space-x-8">
           <Link href="/plants" className="text-green-700 hover:text-green-900 font-medium">Plant Library</Link>
-          <Link href="/uses" className="text-green-700 hover:text-green-900 font-medium">Medicinal Uses</Link>
           <Link href="/blog" className="text-green-700 hover:text-green-900 font-medium">Blog</Link>
           <Link href="/about" className="text-green-700 hover:text-green-900 font-medium">About</Link>
         </div>

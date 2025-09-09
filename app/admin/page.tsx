@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { CldUploadWidget, CldImage } from 'next-cloudinary';
+import { CldUploadWidget, CldImage, CloudinaryUploadWidgetResults, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import RequireAuth from '@/components/RequireAuth';
 
 interface HerbalPlantData {
@@ -71,12 +71,16 @@ const HerbalPlantForm = () => {
     }));
   };
 
-  const handleImageUploadSuccess = (result: any) => {
-    if (result.info && result.info.secure_url) {
-      setFormData(prev => ({
-        ...prev,
-        imageUrls: [...prev.imageUrls, result.info.secure_url]
-      }));
+  // Fix the type to match Cloudinary's expected type
+  const handleImageUploadSuccess = (results: CloudinaryUploadWidgetResults) => {
+    if (results.event === 'success' && typeof results.info !== 'string') {
+      const info = results.info as CloudinaryUploadWidgetInfo;
+      if (info.secure_url) {
+        setFormData(prev => ({
+          ...prev,
+          imageUrls: [...prev.imageUrls, info.secure_url]
+        }));
+      }
     }
   };
 
