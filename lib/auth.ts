@@ -1,17 +1,18 @@
 // lib/auth.ts
-import { AuthOptions, TokenSet } from 'next-auth';
+import { AuthOptions, TokenSet, Session, User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoClient } from 'mongodb';
+import { JWT } from 'next-auth/jwt';
 
 // Define interfaces for callback parameters
 interface JWTParams {
-  token: TokenSet;
-  user?: any;
+  token: JWT;
+  user?: User;
 }
 
 interface SessionParams {
-  session: any;
-  token: TokenSet;
+  session: Session;
+  token: JWT;
 }
 
 export const authOptions: AuthOptions = {
