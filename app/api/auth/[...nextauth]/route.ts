@@ -1,9 +1,20 @@
-import NextAuth, { AuthOptions } from 'next-auth';
+import NextAuth, { AuthOptions, Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoClient } from 'mongodb';
-import { compare } from 'bcryptjs';
 
-export const authOptions: AuthOptions = {
+// Define types for the callback parameters
+interface JWTParams {
+  token: JWT;
+  user?: any;
+}
+
+interface SessionParams {
+  session: Session;
+  token: JWT;
+}
+
+const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -34,8 +45,6 @@ export const authOptions: AuthOptions = {
             throw new Error('No admin found with this username or password');
           }
           
-          
-          
           // If everything is correct, return admin data
           return {
             id: admin._id.toString(),
@@ -52,13 +61,13 @@ export const authOptions: AuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: JWTParams) {
       if (user) {
         token.role = user.role;
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: SessionParams) {
       if (token) {
         session.user.role = token.role as string;
         session.user.id = token.sub as string;
