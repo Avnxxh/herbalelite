@@ -6,13 +6,16 @@ import { eq } from "drizzle-orm";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { scientificName: string } }
+  context: { params: Promise<{ scientificName: string }> }
 ) {
   try {
+    // Await the params to get the scientificName
+    const { scientificName } = await context.params;
+    
     const plant = await db
       .select()
       .from(herbalPlants)
-      .where(eq(herbalPlants.scientificName, decodeURIComponent(params.scientificName)));
+      .where(eq(herbalPlants.scientificName, decodeURIComponent(scientificName)));
 
     if (plant.length === 0) {
       return NextResponse.json(
