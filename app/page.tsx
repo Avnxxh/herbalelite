@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
       {/* Navigation */}
@@ -18,6 +18,7 @@ const HomePage = () => {
         
         <div className="hidden md:flex space-x-8">
           <Link href="/plants" className="text-green-700 hover:text-green-900 font-medium">Plant Library</Link>
+          <Link href="/uses" className="text-green-700 hover:text-green-900 font-medium">Medicinal Uses</Link>
           <Link href="/blog" className="text-green-700 hover:text-green-900 font-medium">Blog</Link>
           <Link href="/about" className="text-green-700 hover:text-green-900 font-medium">About</Link>
         </div>
@@ -76,7 +77,7 @@ const HomePage = () => {
 
       {/* Features Section */}
       <div className="container mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-center text-green-900 mb-12">What You'll Discover</h2>
+        <h2 className="text-3xl font-bold text-center text-green-900 mb-12">What You&apos;ll Discover</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-xl shadow-md border border-green-100">
