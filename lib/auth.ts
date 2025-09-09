@@ -1,7 +1,18 @@
 // lib/auth.ts
-import { AuthOptions } from 'next-auth';
+import { AuthOptions, TokenSet } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoClient } from 'mongodb';
+
+// Define interfaces for callback parameters
+interface JWTParams {
+  token: TokenSet;
+  user?: any;
+}
+
+interface SessionParams {
+  session: any;
+  token: TokenSet;
+}
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -50,13 +61,13 @@ export const authOptions: AuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }: JWTParams) {
       if (user) {
         token.role = user.role;
       }
       return token;
     },
-    async session({ session, token }: any) {
+    async session({ session, token }: SessionParams) {
       if (token) {
         session.user.role = token.role as string;
         session.user.id = token.sub as string;
