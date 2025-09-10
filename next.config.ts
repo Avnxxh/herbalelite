@@ -7,7 +7,13 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
         port: '',
-        pathname: '/**', // Allows all paths from Cloudinary
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'thursd.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },

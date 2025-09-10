@@ -1,0 +1,1 @@
+ALTER TABLE "herbal_plants" ADD COLUMN "itc_hs_code" varchar(50) NOT NULL;

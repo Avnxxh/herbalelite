@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 interface Plant {
   id: number;
+  itcHsCode: string; // <-- Add this line
   commonName: string;
   scientificName: string;
   description: string;
@@ -51,6 +52,9 @@ export default async function PlantPage({
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-800">{plant.commonName}</h1>
           <p className="text-xl text-gray-600 italic">{plant.scientificName}</p>
+          <p className="text-md text-gray-500 mt-2">
+            <span className="font-semibold">ITC HS Code:</span> {plant.itcHsCode}
+          </p>
         </div>
         
         {/* Image Carousel */}

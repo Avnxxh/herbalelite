@@ -2,6 +2,7 @@ import { pgTable, serial, text, varchar, boolean, jsonb,timestamp } from "drizzl
 
 export const herbalPlants = pgTable("herbal_plants", {
   id: serial("id").primaryKey(),
+  itcHsCode: varchar("itc_hs_code", { length: 50 }).notNull(),
   commonName: varchar("common_name", { length: 255 }).notNull(),
   scientificName: varchar("scientific_name", { length: 255 }).notNull(),
   description: text("description").notNull(),

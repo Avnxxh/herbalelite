@@ -9,6 +9,7 @@ import RequireAuth from '@/components/RequireAuth';
 
 interface Plant {
   id: number;
+  itcHsCode: string; // <-- Add this line
   commonName: string;
   scientificName: string;
   imageUrls: string[];
@@ -98,6 +99,9 @@ function PlantCard({ plant }: { plant: Plant }) {
         <div className="p-4">
           <h2 className="text-xl font-semibold text-gray-800">{plant.commonName}</h2>
           <p className="text-sm text-gray-600 italic">{plant.scientificName}</p>
+          <p className="text-xs text-gray-500 mt-1">
+            <span className="font-semibold">ITC HS Code:</span> {plant.itcHsCode}
+          </p>
           
           {/* Admin actions */}
           <div className="mt-4 flex space-x-2">

@@ -6,6 +6,7 @@ import { CldUploadWidget, CldImage, CloudinaryUploadWidgetResults, CloudinaryUpl
 import RequireAuth from '@/components/RequireAuth';
 
 interface HerbalPlantData {
+  itcHsCode: string; // <-- Add this line
   commonName: string;
   scientificName: string;
   description: string;
@@ -22,6 +23,7 @@ const HerbalPlantForm = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [formData, setFormData] = useState<HerbalPlantData>({
+    itcHsCode: '', // <-- Add this line
     commonName: '',
     scientificName: '',
     description: '',
@@ -142,6 +144,7 @@ const HerbalPlantForm = () => {
         alert('Herbal plant saved successfully!');
         // Reset form
         setFormData({
+          itcHsCode: '', // <-- Add this line
           commonName: '',
           scientificName: '',
           description: '',
@@ -191,6 +194,22 @@ const HerbalPlantForm = () => {
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {/* Basic Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="itcHsCode" className="block text-sm font-medium text-gray-700 mb-1">
+                    ITC HS Code *
+                  </label>
+                  <input
+                    type="text"
+                    id="itcHsCode"
+                    name="itcHsCode"
+                    value={formData.itcHsCode}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
+                    placeholder="Enter ITC HS Code"
+                  />
+                </div>
+
                 <div>
                   <label htmlFor="commonName" className="block text-sm font-medium text-gray-700 mb-1">
                     Common Name *
