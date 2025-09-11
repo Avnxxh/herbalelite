@@ -1,33 +1,110 @@
-import React from 'react'
+"use client";
+import React, { useState } from 'react'
 import Link from 'next/link'
 import Button from '@/components/Button'
 
 const UserNav = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
     <div>
-        {/* Navigation */}
-      <nav className="flex items-center justify-between p-6 bg-green-800">
+      {/* Navigation */}
+      <nav className="flex items-center justify-between p-4 md:p-6 bg-green-800">
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-full bg-peach-500 flex items-center justify-center mr-3">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-peach-500 flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-6 md:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
             </svg>
           </div>
-          <Link href="/" className="text-2xl font-bold text-white">Herbal Plants Hub</Link>
+          <Link href="/" className="text-xl md:text-2xl font-bold text-white">Herbal Plants Hub</Link>
         </div>
         
-        <div className="hidden md:flex space-x-8">
-          <Link href="/plants" className="text-white">Plant Library</Link>
-          <Link href="/community" className="text-white">Community</Link>
-          <Link href="/ayurveda" className="text-white">Ayurveda</Link>
-          <Link href="/about" className="text-white">About</Link>
-          <Link href="/contact" className="text-white">Contact Us</Link>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-6 lg:space-x-8">
+          <Link href="/plants" className="text-white hover:text-peach-200 transition-colors">Plant Library</Link>
+          <Link href="/community" className="text-white hover:text-peach-200 transition-colors">Community</Link>
+          <Link href="/ayurveda" className="text-white hover:text-peach-200 transition-colors">Ayurveda</Link>
+          <Link href="/about" className="text-white hover:text-peach-200 transition-colors">About</Link>
+          <Link href="/contact" className="text-white hover:text-peach-200 transition-colors">Contact Us</Link>
         </div>
         
-        <Button variant="primary">
-          Sign In
-        </Button>
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center">
+          <Button variant="primary" className="hidden sm:block mr-4 text-sm py-1 px-3">
+            Sign In
+          </Button>
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="text-white focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? (
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
+        
+        {/* Desktop Sign In Button */}
+        <div className="hidden md:block">
+          <Button variant="primary">
+            Sign In
+          </Button>
+        </div>
       </nav>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-green-700">
+          <div className="px-4 py-2 space-y-1">
+            <Link 
+              href="/plants" 
+              className="block py-2 text-white hover:bg-green-600 rounded px-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Plant Library
+            </Link>
+            <Link 
+              href="/community" 
+              className="block py-2 text-white hover:bg-green-600 rounded px-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Community
+            </Link>
+            <Link 
+              href="/ayurveda" 
+              className="block py-2 text-white hover:bg-green-600 rounded px-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Ayurveda
+            </Link>
+            <Link 
+              href="/about" 
+              className="block py-2 text-white hover:bg-green-600 rounded px-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About
+            </Link>
+            <Link 
+              href="/contact" 
+              className="block py-2 text-white hover:bg-green-600 rounded px-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact Us
+            </Link>
+            <div className="pt-2 pb-3 border-t border-green-600 mt-2">
+              <Button variant="primary" className="w-full justify-center">
+                Sign In
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
