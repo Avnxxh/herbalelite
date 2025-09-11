@@ -29,7 +29,7 @@ const Page = () => {
                         Understanding Ayurvedic Medicine
                     </h2>
                     <p className="text-green-700 text-lg leading-relaxed">
-                        Ayurveda is one of the world's oldest holistic healing systems, developed more than 3,000 years ago in India. It's based on the belief that health and wellness depend on a delicate balance between the mind, body, and spirit. The primary focus of Ayurvedic medicine is to promote good health, rather than fight disease.
+                        Ayurveda is one of the world&apos;s oldest holistic healing systems, developed more than 3,000 years ago in India. It&apos;s based on the belief that health and wellness depend on a delicate balance between the mind, body, and spirit. The primary focus of Ayurvedic medicine is to promote good health, rather than fight disease.
                     </p>
                 </div>
 
@@ -185,7 +185,7 @@ const Page = () => {
                                     <div className="bg-gradient-to-b from-amber-50 to-amber-100 rounded-xl p-6 shadow-md">
                                         <h5 className="text-lg font-bold text-amber-800 mb-2">Ashwagandha (Withania somnifera)</h5>
                                         <p className="text-amber-700 text-sm mb-4">
-                                            Known as "Indian Ginseng," it helps reduce stress and anxiety, improves cognitive function, and supports immune health. Balances Vata and Kapha.
+                                            Known as &quot;Indian Ginseng,&quot; it helps reduce stress and anxiety, improves cognitive function, and supports immune health. Balances Vata and Kapha.
                                         </p>
                                     </div>
                                     

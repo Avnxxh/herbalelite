@@ -30,7 +30,7 @@ const CommunityPage = () => {
                 <h3 className="font-bold text-lg text-green-800 mb-2">Shared Knowledge</h3>
                 <p className="text-green-700">
                   Herbal wisdom is often passed down through generations. In community, we preserve and expand this knowledge together, 
-                  ensuring traditional remedies aren't lost while exploring new applications.
+                  ensuring traditional remedies aren&apos;t lost while exploring new applications.
                 </p>
               </div>
               
@@ -106,7 +106,7 @@ const CommunityPage = () => {
                 <h3 className="text-xl font-bold text-amber-900 mb-3">Community Forum</h3>
                 <p className="text-gray-600 mb-4">
                   Join conversations with herbal enthusiasts of all experience levels. Ask questions, share experiences, 
-                  and learn from others' wisdom. From gardening tips to remedy formulations, our forum has it all.
+                  and learn from others&apos; wisdom. From gardening tips to remedy formulations, our forum has it all.
                 </p>
                 <Link href="community/forum">
                   <button className="w-full bg-amber-600 hover:bg-amber-700 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center">
@@ -128,7 +128,7 @@ const CommunityPage = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                text: "Through this community, I've connected with local growers who've taught me sustainable harvesting practices that honor both the plants and the land.",
+                text: "Through this community, I&apos;ve connected with local growers who&apos;ve taught me sustainable harvesting practices that honor both the plants and the land.",
                 author: "Elena, Herbalist",
                 role: "3 years in community"
               },
@@ -144,7 +144,7 @@ const CommunityPage = () => {
               }
             ].map((testimonial, index) => (
               <div key={index} className="bg-white bg-opacity-20 p-6 rounded-xl ">
-                <p className="italic mb-4 text-green-800">"{testimonial.text}"</p>
+                <p className="italic mb-4 text-green-800">&quot;{testimonial.text}&quot;</p>
                 <div>
                   <p className="font-semibold text-green-800">{testimonial.author}</p>
                   <p className="text-sm opacity-80 text-green-800">{testimonial.role}</p>
@@ -158,7 +158,7 @@ const CommunityPage = () => {
         <div className="text-center bg-white rounded-2xl shadow-lg p-8 mb-12">
           <h2 className="text-2xl font-bold text-green-900 mb-4">Ready to Join Our Growing Community?</h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-6">
-            Whether you're a seasoned herbalist or just beginning your plant journey, our community has something for you. 
+            Whether you&apos;re a seasoned herbalist or just beginning your plant journey, our community has something for you. 
             Share knowledge, find resources, and connect with like-minded individuals who share your passion for herbal wellness.
           </p>
           
