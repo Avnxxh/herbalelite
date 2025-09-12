@@ -65,3 +65,17 @@ body {
         .border-peach-200 { border-color: #F8D2BC; }
         .border-peach-300 { border-color: #F2C1A3; }
         .border-peach-500 { border-color: #E59E71; }
+
+.embla {
+  position: relative;
+}
+
+.embla__container {
+  transition: transform 0.3s ease-in-out;
+}
+
+.embla__slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 0;
+}
