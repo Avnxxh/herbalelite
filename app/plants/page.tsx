@@ -147,7 +147,8 @@ export default function PlantsPage() {
 
 function PlantCard({ plant }: { plant: Plant }) {
   return (
-    <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-peach-200">
+    <Link href={`/plants/${encodeURIComponent(plant.scientificName)}`} className="no-underline"> 
+      <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-peach-200">
       {/* Image */}
       {plant.imageUrls && plant.imageUrls.length > 0 && (
         <div className="relative h-48 w-full">
@@ -170,5 +171,7 @@ function PlantCard({ plant }: { plant: Plant }) {
     
       </div>
     </div>
+    </Link>
+    
   );
 }
