@@ -1,4 +1,6 @@
 "use client";
+import Image from 'next/image';
+
 import { useState, useRef, useEffect } from 'react';
 
 interface Message {
@@ -158,11 +160,15 @@ const NisargAI = () => {
           {/* Header */}
           <div className="bg-green-700 text-white p-4 flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <div className="bg-white p-1 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-peach-500 flex items-center justify-center mr-3 overflow-hidden">
+        <Image 
+          src="/logoelite.jpeg" 
+          alt="Herbal Plants Hub Logo" 
+          width={32} 
+          height={32}
+          className="w-full h-full object-cover"
+        />
+      </div>
               <h2 className="text-xl font-semibold">Nisarg AI</h2>
             </div>
             <button onClick={toggleSidebar} className="text-white hover:text-green-200" aria-label="Close chatbot">

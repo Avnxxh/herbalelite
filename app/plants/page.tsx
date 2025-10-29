@@ -57,8 +57,8 @@ function SortControls({ sortBy, setSortBy }: {
         <option value="createdAt-desc">Newest First</option>
         <option value="createdAt-asc">Oldest First</option>
         {/* New options for medicinal remedies */}
-        <option value="coughRemedies">Cough Remedies (A-Z)</option>
-        <option value="headacheRemedies">Headache Remedies (A-Z)</option>
+        <option value="coughRemedies">Cough Remedies</option>
+        <option value="headacheRemedies">Headache Remedies</option>
       </select>
     </div>
   );
