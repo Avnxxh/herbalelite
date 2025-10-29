@@ -10,11 +10,39 @@ interface Plant {
   commonName: string;
   scientificName: string;
   imageUrls: string[];
+  createdAt: string | Date | null;
   // Add other fields as needed
 }
 
+// Sort component
+function SortControls({ sortBy, setSortBy }: { 
+  sortBy: string; 
+  setSortBy: (sort: string) => void 
+}) {
+  return (
+      
+        <div className="flex items-center gap-2">
+          <span className="text-gray-600 whitespace-nowrap">Sort by:</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="bg-white border  border-green-300 rounded-lg py-2 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          >
+            <option value="commonName-asc">Common Name (A-Z)</option>
+            <option value="commonName-desc">Common Name (Z-A)</option>
+            <option value="scientificName-asc">Scientific Name (A-Z)</option>
+            <option value="scientificName-desc">Scientific Name (Z-A)</option>
+            <option value="createdAt-desc">Newest First</option>
+            <option value="createdAt-asc">Oldest First</option>
+          </select>
+        
+      
+    </div>
+  );
+}
+
 async function getPlants(): Promise<Plant[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/herbal-plants`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/herbsort`, {
     next: { revalidate: 3600 }
   });
   
@@ -29,6 +57,7 @@ export default function PlantsPage() {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [filteredPlants, setFilteredPlants] = useState<Plant[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('commonName-asc');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -47,24 +76,53 @@ export default function PlantsPage() {
     fetchPlants();
   }, []);
 
+  // Apply sorting and filtering
   useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredPlants(plants);
-    } else {
-      const filtered = plants.filter(plant =>
+    let result = [...plants];
+    
+    // Apply search filter
+    if (searchQuery.trim() !== '') {
+      result = result.filter(plant =>
         plant.commonName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         plant.scientificName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         plant.itcHsCode.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredPlants(filtered);
     }
-  }, [searchQuery, plants]);
+    
+    // Apply sorting
+    const [field, order] = sortBy.split('-');
+    result.sort((a, b) => {
+      let aValue: any = a[field as keyof Plant];
+      let bValue: any = b[field as keyof Plant];
+      
+      // Handle null values
+      if (aValue === null || aValue === undefined) aValue = '';
+      if (bValue === null || bValue === undefined) bValue = '';
+      
+      // Handle date comparison
+      if (field === 'createdAt') {
+        aValue = aValue ? new Date(aValue).getTime() : 0;
+        bValue = bValue ? new Date(bValue).getTime() : 0;
+      } else {
+        // String comparison for other fields
+        aValue = String(aValue).toLowerCase();
+        bValue = String(bValue).toLowerCase();
+      }
+      
+      if (order === 'asc') {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    });
+    
+    setFilteredPlants(result);
+  }, [searchQuery, plants, sortBy]);
 
   return (
     <div className=''>
-        <UserNav />
-         <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8">
-        
+      <UserNav />
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8">
         <div className="container mx-auto px-4">
           {/* Header with Welcome and Search */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-md border border-peach-200">
@@ -72,7 +130,8 @@ export default function PlantsPage() {
               <h1 className="text-3xl font-bold text-green-900">Welcome to Herbal Garden</h1>
             </div>
             
-            <div className="mt-4 md:mt-0 w-full md:w-auto">
+            <div className="mt-4 md:mt-0 w-full md:w-auto display: flex gap-3">
+              <SortControls sortBy={sortBy} setSortBy={setSortBy} />
               <div className="relative">
                 <input
                   type="text"
@@ -93,6 +152,7 @@ export default function PlantsPage() {
             </div>
           </div>
 
+  
 
           {/* Plants Grid */}
           {isLoading ? (
@@ -139,39 +199,40 @@ export default function PlantsPage() {
         </div>
       </div>
     </div>
-    
-     
-    
   );
 }
 
 function PlantCard({ plant }: { plant: Plant }) {
+  // Helper function to safely format dates
+  const formatDate = (date: Date | string | null | undefined): string => {
+    if (!date) return 'N/A';
+    return new Date(date).toLocaleDateString();
+  };
+
   return (
     <Link href={`/plants/${encodeURIComponent(plant.scientificName)}`} className="no-underline"> 
       <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-peach-200">
-      {/* Image */}
-      {plant.imageUrls && plant.imageUrls.length > 0 && (
-        <div className="relative h-48 w-full">
-          <Image
-            src={plant.imageUrls[0]}
-            alt={plant.commonName}
-            fill
-            className="object-cover"
-          />
-        </div>
-      )}
-      
-      <div className="p-5">
-        <h2 className="text-xl font-semibold text-green-900">{plant.commonName}</h2>
-        <p className="text-sm text-green-700 italic">{plant.scientificName}</p>
-        <p className="text-xs text-green-600 mt-2">
-          <span className="font-semibold">ITC HS Code:</span> {plant.itcHsCode}
-        </p>
+        {/* Image */}
+        {plant.imageUrls && plant.imageUrls.length > 0 && (
+          <div className="relative h-48 w-full">
+            <Image
+              src={plant.imageUrls[0]}
+              alt={plant.commonName}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
         
-    
+        <div className="p-5">
+          <h2 className="text-xl font-semibold text-green-900">{plant.commonName}</h2>
+          <p className="text-sm text-green-700 italic">{plant.scientificName}</p>
+          <p className="text-xs text-green-600 mt-2">
+            <span className="font-semibold">ITC HS Code:</span> {plant.itcHsCode}
+          </p>
+          
+        </div>
       </div>
-    </div>
     </Link>
-    
   );
 }
