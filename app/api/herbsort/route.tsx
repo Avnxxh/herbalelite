@@ -14,17 +14,17 @@ export async function GET(request: NextRequest) {
     
     // Apply sorting
     if (sortBy === 'commonName') {
-    //@ts-ignore
+    // @ts-expect-error - Drizzle ORM type inference issue with query reassignment
       query = sortOrder === 'asc' 
         ? query.orderBy(asc(herbalPlants.commonName)) 
         : query.orderBy(desc(herbalPlants.commonName))
     } else if (sortBy === 'scientificName') {
-    //@ts-ignore
+    // @ts-expect-error - Drizzle ORM type inference issue with query reassignment
       query = sortOrder === 'asc' 
         ? query.orderBy(asc(herbalPlants.scientificName)) 
         : query.orderBy(desc(herbalPlants.scientificName))
     } else if (sortBy === 'createdAt') {
-        //@ts-ignore
+        // @ts-expect-error - Drizzle ORM type inference issue with query reassignment
       query = sortOrder === 'asc' 
         ? query.orderBy(asc(herbalPlants.createdAt)) 
         : query.orderBy(desc(herbalPlants.createdAt))

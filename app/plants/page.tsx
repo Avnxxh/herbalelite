@@ -11,7 +11,6 @@ interface Plant {
   scientificName: string;
   imageUrls: string[];
   createdAt: string | Date | null;
-  // Add other fields as needed
 }
 
 // Sort component
@@ -20,23 +19,20 @@ function SortControls({ sortBy, setSortBy }: {
   setSortBy: (sort: string) => void 
 }) {
   return (
-      
-        <div className="flex items-center gap-2">
-          <span className="text-gray-600 whitespace-nowrap">Sort by:</span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="bg-white border  border-green-300 rounded-lg py-2 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-          >
-            <option value="commonName-asc">Common Name (A-Z)</option>
-            <option value="commonName-desc">Common Name (Z-A)</option>
-            <option value="scientificName-asc">Scientific Name (A-Z)</option>
-            <option value="scientificName-desc">Scientific Name (Z-A)</option>
-            <option value="createdAt-desc">Newest First</option>
-            <option value="createdAt-asc">Oldest First</option>
-          </select>
-        
-      
+    <div className="flex items-center gap-2">
+      <span className="text-gray-600 whitespace-nowrap">Sort by:</span>
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value)}
+        className="bg-white border border-green-300 rounded-lg py-2 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+      >
+        <option value="commonName-asc">Common Name (A-Z)</option>
+        <option value="commonName-desc">Common Name (Z-A)</option>
+        <option value="scientificName-asc">Scientific Name (A-Z)</option>
+        <option value="scientificName-desc">Scientific Name (Z-A)</option>
+        <option value="createdAt-desc">Newest First</option>
+        <option value="createdAt-asc">Oldest First</option>
+      </select>
     </div>
   );
 }
@@ -89,30 +85,36 @@ export default function PlantsPage() {
       );
     }
     
-    // Apply sorting
+    // Apply sorting with proper type safety
     const [field, order] = sortBy.split('-');
+    
     result.sort((a, b) => {
-      let aValue: any = a[field as keyof Plant];
-      let bValue: any = b[field as keyof Plant];
+      // Get the raw values
+      const aValue = a[field as keyof Plant];
+      const bValue = b[field as keyof Plant];
       
-      // Handle null values
-      if (aValue === null || aValue === undefined) aValue = '';
-      if (bValue === null || bValue === undefined) bValue = '';
+      // Convert to comparable values based on field type
+      let aComparable: string | number;
+      let bComparable: string | number;
       
-      // Handle date comparison
       if (field === 'createdAt') {
-        aValue = aValue ? new Date(aValue).getTime() : 0;
-        bValue = bValue ? new Date(bValue).getTime() : 0;
+        // Handle date fields - convert to timestamp for comparison
+        const aDate = aValue ? new Date(aValue as string | Date).getTime() : 0;
+        const bDate = bValue ? new Date(bValue as string | Date).getTime() : 0;
+        aComparable = aDate;
+        bComparable = bDate;
       } else {
-        // String comparison for other fields
-        aValue = String(aValue).toLowerCase();
-        bValue = String(bValue).toLowerCase();
+        // Handle string fields (commonName, scientificName)
+        // For other fields like imageUrls, we'll convert to string representation
+        aComparable = String(aValue || '').toLowerCase();
+        bComparable = String(bValue || '').toLowerCase();
       }
       
+      // Perform comparison
       if (order === 'asc') {
-        return aValue > bValue ? 1 : -1;
+        return aComparable > bComparable ? 1 : -1;
       } else {
-        return aValue < bValue ? 1 : -1;
+        return aComparable < bComparable ? 1 : -1;
       }
     });
     
@@ -151,8 +153,6 @@ export default function PlantsPage() {
               </div>
             </div>
           </div>
-
-  
 
           {/* Plants Grid */}
           {isLoading ? (
@@ -203,12 +203,6 @@ export default function PlantsPage() {
 }
 
 function PlantCard({ plant }: { plant: Plant }) {
-  // Helper function to safely format dates
-  const formatDate = (date: Date | string | null | undefined): string => {
-    if (!date) return 'N/A';
-    return new Date(date).toLocaleDateString();
-  };
-
   return (
     <Link href={`/plants/${encodeURIComponent(plant.scientificName)}`} className="no-underline"> 
       <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-peach-200">
@@ -230,7 +224,6 @@ function PlantCard({ plant }: { plant: Plant }) {
           <p className="text-xs text-green-600 mt-2">
             <span className="font-semibold">ITC HS Code:</span> {plant.itcHsCode}
           </p>
-          
         </div>
       </div>
     </Link>
