@@ -299,6 +299,19 @@ function PlantCard({ plant }: { plant: Plant }) {
     plant.scientificName.toLowerCase().includes(remedyPlant.toLowerCase())
   );
 
+  // Function to handle Amazon search
+  const handleAmazonSearch = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigation to plant details
+    e.stopPropagation(); // Stop event bubbling
+    
+    // Create Amazon search URL with plant's common name
+    const searchQuery = encodeURIComponent(plant.commonName);
+    const amazonUrl = `https://www.amazon.in/s?k=${searchQuery}`;
+    
+    // Open Amazon in new tab
+    window.open(amazonUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <Link href={`/plants/${encodeURIComponent(plant.scientificName)}`} className="no-underline"> 
       <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-peach-200 relative">
@@ -346,6 +359,24 @@ function PlantCard({ plant }: { plant: Plant }) {
               </p>
             </div>
           )}
+
+          {/* Buy Plant Button */}
+          <div className="mt-4">
+            <button
+              onClick={handleAmazonSearch}
+              className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center gap-2"
+            >
+              <svg 
+                className="w-4 h-4" 
+                viewBox="0 0 24 24" 
+                fill="currentColor"
+              >
+                <path d="M10.5 13.5L12 12l1.5 1.5L15 12l1.5 1.5L18 12l1.5 1.5-1.5 1.5 1.5 1.5-1.5 1.5L18 21l-1.5-1.5L15 21l-1.5-1.5L12 21l-1.5-1.5L9 21l-1.5-1.5L6 21l-1.5-1.5 1.5-1.5-1.5-1.5 1.5-1.5L6 12l1.5 1.5L9 12l1.5 1.5z"/>
+                <path d="M12 3L9 6l3 3 3-3-3-3z"/>
+              </svg>
+              Buy Plant
+            </button>
+          </div>
         </div>
       </div>
     </Link>
